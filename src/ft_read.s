@@ -8,10 +8,9 @@ ft_read:
 	test rax, rax
 	jns .done
 
-	mov r8, rax
-	neg r8
+	neg rax
 	call __errno_location wrt ..plt
-	mov [rax], r8
+	mov [rax], eax
 	mov rax, -1
 	ret
 
