@@ -6,9 +6,9 @@ ft_strcpy:
 
 	.loop:
 		mov al, BYTE [rsi + rcx]
+		mov BYTE [rdi + rcx], al
 		test al, al
 		jz .done
-		mov BYTE [rdi + rcx], al
 		inc rcx
 		jmp .loop
 
