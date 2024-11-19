@@ -4,7 +4,8 @@ section .text
 ft_atoi_base:	; rdi = char *str, rsi = char *base
 	xor rax, rax					; result
 	xor rcx, rcx					; length of base
-	xor rdx, rdx					; sign
+	push rbx
+	xor rbx, rbx					; sign
 	jmp .check_base
 
 	.check_base_next_character:
@@ -46,68 +47,70 @@ ft_atoi_base:	; rdi = char *str, rsi = char *base
 	.check_base_final:
 		cmp rcx, 1
 		jle .return					; base is too short
-		xor r9, r9
+		xor r8, r8
 		jmp .skip_whitespace
 
 	.skip_whitespace_inc:
-		inc r9
+		inc r8
 
 	.skip_whitespace:
-		cmp BYTE [rdi + r9], 32	; skip ' '
+		cmp BYTE [rdi + r8], 32		; skip ' '
 		je .skip_whitespace_inc
-		cmp BYTE [rdi + r9], 9		; skip '\t'
+		cmp BYTE [rdi + r8], 9		; skip '\t'
 		je .skip_whitespace_inc
-		cmp BYTE [rdi + r9], 10	; skip '\n'
+		cmp BYTE [rdi + r8], 10		; skip '\n'
 		je .skip_whitespace_inc
-		cmp BYTE [rdi + r9], 11	; skip '\v'
+		cmp BYTE [rdi + r8], 11		; skip '\v'
 		je .skip_whitespace_inc
-		cmp BYTE [rdi + r9], 12	; skip '\f'
+		cmp BYTE [rdi + r8], 12		; skip '\f'
 		je .skip_whitespace_inc
-		cmp BYTE [rdi + r9], 13	; skip '\r'
+		cmp BYTE [rdi + r8], 13		; skip '\r'
 		je .skip_whitespace_inc
 		jmp .check_sign
 
 	.is_negative:
-		mov rdx, 1
+		xor bl, 0x00000001
 
 	.is_positive:
-		inc r9
+		inc r8
 
 	.check_sign:
-		cmp BYTE [rdi + r9], 45
+		cmp BYTE [rdi + r8], 45
 		je .is_negative
-		cmp BYTE [rdi + r9], 43
+		cmp BYTE [rdi + r8], 43
 		je .is_positive
 		jmp .atoi
 
 	.atoi_inc:
-		inc r9
+		inc r8
 
 	.atoi:
-		cmp BYTE [rdi + r9], 0
+		cmp BYTE [rdi + r8], 0
 		je .return
-		xor r8, r8
+		xor r9, r9
 		jmp .atoi_find_in_base
 
 	.atoi_find_in_base_inc:
-		inc r8
+		inc r9
 
 	.atoi_find_in_base:
-		mov r10b, BYTE [rsi + r8]
+		mov r10b, BYTE [rsi + r9]
 		cmp r10b, 0
 		je .return
-		cmp BYTE [rdi + r9], r10b
+		cmp BYTE [rdi + r8], r10b
 		jne .atoi_find_in_base_inc
 
 	.atoi_add_to_total:
 		mul rcx
-		add rax, r8
+		add rax, r9
 		jmp .atoi_inc
 
 	.return:
-		cmp rdx, 0
-		jz .return_end
+		mov rax, rax
+		cmp rbx, 0
+		je .return_end
 		neg rax
 
 	.return_end:
+		pop rbx
 		ret
