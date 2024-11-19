@@ -7,5 +7,7 @@ int main() {
 	ft_write_test();
 	ft_read_test();
 	ft_strdup_test();
+
+	ft_atoi_base_test();
 	return 0;
 }

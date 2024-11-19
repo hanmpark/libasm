@@ -11,7 +11,17 @@ SRCS			= ${addprefix src/, ft_strlen.s \
 									ft_write.s \
 									ft_read.s \
 									ft_strdup.s}
-OBJS			= ${SRCS:src/%.s=${OBJ_DIR}%.o}
+OBJ				= ${SRCS:src/%.s=${OBJ_DIR}%.o}
+
+SRCS_BONUS		= ${addprefix src/, ft_atoi_base_bonus.s}
+
+OBJ_BONUS		= ${SRCS_BONUS:src/%.s=${OBJ_DIR}%.o}
+
+ifdef BONUS
+	OBJS		= ${OBJ} ${OBJ_BONUS}
+else
+	OBJS		= ${OBJ}
+endif
 
 TEST_SRCS		= ${addprefix test/src/, ft_strlen.test.c \
 											ft_strcmp.test.c \
@@ -19,7 +29,9 @@ TEST_SRCS		= ${addprefix test/src/, ft_strlen.test.c \
 											ft_write.test.c \
 											ft_read.test.c \
 											ft_strdup.test.c \
-											main.c}
+											main.c \
+											ft_atoi_base.test_bonus.c}
+
 TEST_OBJS		= ${TEST_SRCS:test/src/%.c=${TEST_OBJ_DIR}%.o}
 
 NAME			= libasm.a
@@ -48,7 +60,7 @@ ${TEST_EXEC}: ${NAME} ${TEST_OBJS}
 	${CC} -o ${BIN_DIR}${TEST_EXEC} ${TEST_OBJS} ${NAME}
 
 clean:
-	rm -f ${OBJS} ${TEST_OBJS}
+	rm -f ${OBJ} ${OBJ_BONUS} ${TEST_OBJS}
 	rm -rf ${OBJ_DIR} ${TEST_OBJ_DIR}
 
 fclean: clean
@@ -56,7 +68,10 @@ fclean: clean
 
 re: fclean all
 
-test: ${TEST_EXEC}
-	./${BIN_DIR}${TEST_EXEC}
+test:  bonus ${TEST_EXEC}
+	${BIN_DIR}${TEST_EXEC}
 
-.PHONY: all clean fclean re
+bonus:
+	${MAKE} BONUS=1
+
+.PHONY: all clean fclean re test bonus
