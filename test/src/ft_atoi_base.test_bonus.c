@@ -11,7 +11,6 @@ void ft_atoi_base_test() {
 	ASSERT(ft_atoi_base("1", "0123456789") == 1, "ft_atoi_base(\"1\", \"0123456789\") == 1");
 	ASSERT(ft_atoi_base("10", "0123456789") == 10, "ft_atoi_base(\"10\", \"0123456789\") == 10");
 	ASSERT(ft_atoi_base("11", "0123456789") == 11, "ft_atoi_base(\"11\", \"0123456789\") == 11");
-	printf("%d\n", ft_atoi_base("-1", "0123456789"));
 	ASSERT(ft_atoi_base("-1", "0123456789") == -1, "ft_atoi_base(\"-1\", \"0123456789\") == -1");
 
 	ASSERT(ft_atoi_base("1", "0123456789ABCDEF") == 1, "ft_atoi_base(\"1\", \"0123456789ABCDEF\") == 1");

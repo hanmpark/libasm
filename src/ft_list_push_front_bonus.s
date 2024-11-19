@@ -14,7 +14,7 @@ ft_list_push_front:	; rdi = t_list **begin_list, rsi = void *data
 	jz .return
 	mov [rax], rsi
 	mov rdx, [rdi]
-	mov [rax + 8], rcx
+	mov [rax + 8], rdx
 	mov [rdi], rax
 
 	.return:

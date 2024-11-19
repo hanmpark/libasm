@@ -9,5 +9,6 @@ int main() {
 	ft_strdup_test();
 
 	ft_atoi_base_test();
+	ft_list_push_front_test();
 	return 0;
 }
