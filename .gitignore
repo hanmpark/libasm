@@ -2,3 +2,5 @@
 *.o
 *.out
 obj/
+bin/
+*.a

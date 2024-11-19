@@ -68,7 +68,7 @@ ft_atoi_base:	; rdi = char *str, rsi = char *base
 		jmp .check_sign
 
 	.is_negative:
-		xor dl, 0x00000001
+		mov rdx, 1
 
 	.is_positive:
 		inc r9
