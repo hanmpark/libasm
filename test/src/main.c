@@ -10,5 +10,7 @@ int main() {
 
 	ft_atoi_base_test();
 	ft_list_push_front_test();
+	ft_list_size_test();
+
 	return 0;
 }
