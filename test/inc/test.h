@@ -34,5 +34,6 @@ void	ft_strdup_test();
 void	ft_atoi_base_test();
 void	ft_list_push_front_test();
 void	ft_list_size_test();
+void	ft_list_sort_test();
 
 #endif

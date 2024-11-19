@@ -14,5 +14,9 @@ void ft_list_push_front_test() {
 	ASSERT(list->data == &data, "ft_list_push_front(&list, &data): list->data == &data");
 	ASSERT(list->next->data == &data, "ft_list_push_front(&list, &data): list->next->data == &data");
 
-	free(list);
+	while (list) {
+		t_list *tmp = list;
+		list = list->next;
+		free(tmp);
+	}
 }

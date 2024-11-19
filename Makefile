@@ -15,7 +15,8 @@ OBJ				= ${SRCS:src/%.s=${OBJ_DIR}%.o}
 
 SRCS_BONUS		= ${addprefix src/, ft_atoi_base_bonus.s \
 									ft_list_push_front_bonus.s \
-									ft_list_size_bonus.s}
+									ft_list_size_bonus.s \
+									ft_list_sort_bonus.s}
 
 OBJ_BONUS		= ${SRCS_BONUS:src/%.s=${OBJ_DIR}%.o}
 
@@ -34,7 +35,8 @@ TEST_SRCS		= ${addprefix test/src/, ft_strlen.test.c \
 											main.c \
 											ft_atoi_base.test_bonus.c \
 											ft_list_push_front.test_bonus.c \
-											ft_list_size.test_bonus.c}
+											ft_list_size.test_bonus.c \
+											ft_list_sort.test_bonus.c}
 
 TEST_OBJS		= ${TEST_SRCS:test/src/%.c=${TEST_OBJ_DIR}%.o}
 
