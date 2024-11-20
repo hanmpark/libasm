@@ -16,7 +16,8 @@ OBJ				= ${SRCS:src/%.s=${OBJ_DIR}%.o}
 SRCS_BONUS		= ${addprefix src/, ft_atoi_base_bonus.s \
 									ft_list_push_front_bonus.s \
 									ft_list_size_bonus.s \
-									ft_list_sort_bonus.s}
+									ft_list_sort_bonus.s \
+									ft_list_remove_if_bonus.s}
 
 OBJ_BONUS		= ${SRCS_BONUS:src/%.s=${OBJ_DIR}%.o}
 
@@ -36,7 +37,8 @@ TEST_SRCS		= ${addprefix test/src/, ft_strlen.test.c \
 											ft_atoi_base.test_bonus.c \
 											ft_list_push_front.test_bonus.c \
 											ft_list_size.test_bonus.c \
-											ft_list_sort.test_bonus.c}
+											ft_list_sort.test_bonus.c \
+											ft_list_remove_if.test_bonus.c}
 
 TEST_OBJS		= ${TEST_SRCS:test/src/%.c=${TEST_OBJ_DIR}%.o}
 
@@ -63,7 +65,7 @@ ${TEST_OBJ_DIR}%.o: test/src/%.c
 # Rule to build the test executable
 ${TEST_EXEC}: ${NAME} ${TEST_OBJS}
 	@mkdir -p ${BIN_DIR}
-	${CC} -o ${BIN_DIR}${TEST_EXEC} ${TEST_OBJS} ${NAME}
+	${CC} -o ${BIN_DIR}${TEST_EXEC} -fsanitize=address -g3 ${TEST_OBJS} ${NAME}
 
 clean:
 	rm -f ${OBJ} ${OBJ_BONUS} ${TEST_OBJS}
