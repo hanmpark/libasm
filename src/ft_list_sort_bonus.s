@@ -1,24 +1,24 @@
-global ft_list_sort
-
 section .text
+	global ft_list_sort
+
 ft_list_sort:					; rdi t_list **begin_list, rsi int (*cmp)()
-	mov r10, rsi
-	mov r11, [rdi]
+	mov r10, rsi				; r10 = cmp
+	mov r11, [rdi]				; r11 = *begin_list (current)
 	jmp .outer_loop
 
 	.increment_outer_loop:
-		mov r11, [r11 + 8]		; *begin_list = (*begin_list)->next
+		mov r11, [r11 + 8]		; *current = current->next
 
 	.outer_loop:
-		cmp r11, 0				; if (*begin_list == NULL)
+		cmp r11, 0				; if (current == NULL)
 		je .return
-		mov rcx, [r11 + 8]		; rcx = *begin_list->next
+		mov rcx, [r11 + 8]		; rcx = current->next
 
 	.inner_loop:
-		cmp rcx, 0				; if (begin_list->next == NULL)
+		cmp rcx, 0				; if (rcx == NULL)
 		je .return
-		mov rdi, [r11]			; rdi = *begin_list
-		mov rsi, [rcx]			; rsi = begin_list->next
+		mov rdi, [r11]			; rdi = current->data
+		mov rsi, [rcx]			; rsi = rcx->data (current->next->data)
 		push rcx
 		push r10
 		push r11
@@ -26,7 +26,7 @@ ft_list_sort:					; rdi t_list **begin_list, rsi int (*cmp)()
 		pop r11
 		pop r10
 		pop rcx
-		cmp rax, 0
+		cmp rax, 0				; if (cmp(current->data, current->next->data) <= 0)
 		jle .go_to_next
 		jmp .swap
 

@@ -5,7 +5,7 @@ section .text
 	extern ft_strcpy
 	extern __errno_location
 
-ft_strdup:
+ft_strdup:								; rdi = const char *s
 	.set_length:
 		call ft_strlen
 		inc rax
@@ -13,13 +13,13 @@ ft_strdup:
 	.set_memory:
 		push rdi
 		mov rdi, rax
-		call malloc wrt ..plt
+		call malloc wrt ..plt			; rax = malloc(strlen(s) + 1)
 		test rax, rax
 		jz .error
 
 	.copy:
-		pop rsi
-		mov rdi, rax
+		pop rsi							; rsi = s
+		mov rdi, rax					; rdi = dest
 		call ft_strcpy
 		ret
 

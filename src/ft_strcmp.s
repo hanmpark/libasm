@@ -1,7 +1,7 @@
 section .text
 	global ft_strcmp
 
-ft_strcmp:
+ft_strcmp:							; rdi = const char *s1, rsi = const char *s2
 	xor rcx, rcx
 
 	.loop:

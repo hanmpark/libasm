@@ -1,7 +1,7 @@
 section .text
 	global ft_strcpy
 
-ft_strcpy:
+ft_strcpy:							; rdi = char *dest, rsi = const char *src
 	xor rcx, rcx
 
 	.loop:
