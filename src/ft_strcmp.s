@@ -6,9 +6,9 @@ ft_strcmp:							; rdi = const char *s1, rsi = const char *s2
 
 	.loop:
 		mov al, BYTE [rdi + rcx]
-		test al, al
-		jz .done_end
 		mov bl, BYTE [rsi + rcx]
+		cmp al, 0
+		je .done
 		cmp al, bl
 		jne .done
 		inc rcx
