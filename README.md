@@ -1,5 +1,5 @@
 # libasm
-The goal of this project is to get familiar with assembly language.
+<p align='center'>The goal of this project is to get familiar with assembly language.</p>
 
 ## Basic Concepts
 ### Registers
