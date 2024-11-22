@@ -1,58 +1,81 @@
 # libasm
-The aim of this project is to get familiar with assembly language
+The goal of this project is to get familiar with assembly language.
 
-## Basic concepts
+## Basic Concepts
 ### Registers
-Assembly works mainly with registers. They can be compared to little pre-defined boxes that can store data.
+Assembly programming primarily involves working with **registers**. Registers can be thought of as small, predefined storage locations in the CPU that hold data.
 
-The general-purpose registers are: `rax`, `rcs`, `rbx`, `rdx`, `rsi`, `rdi`, `rsp`, `rbp`, `r8`, `r9`, ...`r15`, `rip`
+The general-purpose registers in x86-64 are:
+`rax`, `rcx`, `rdx`, `rbx`, `rsp`, `rbp`, `rsi`, `rdi`, `r8` to `r15`, and `rip`.
 
-We have to be careful when putting data in those registers, because they can be used by the system at any time (read or written).
+It’s important to handle registers with care because they may be used by the system at any time (for both reading and writing). Here are some key examples:
+- **`rax`**: Stores the return value of a function.
+- **`rcx`**: Commonly used as a counter in loops.
+- **`rbp`**: Holds the base pointer, typically for stack frames.
+- **`rdi`, `rsi`, `rdx`, `rcx`, `r8`, `r9`**: Used for passing function arguments, in the order: `function(rdi, rsi, rdx, rcx, r8, r9)`.
 
-Among the above registers for example:
-- `rax` is used to store the return value of a function
-- `rcx` is used as a counter in loops
-- `rbp` is used to store the base pointer
-- `rdi`, `rsi`, `rdx`, `rcs`, `r8`, `r9` are used respectively to pass arguments, vulgarly like `function(rdi, rsi, rdx, rcs, r8, r9)`
+### Execution Flow
+Assembly instructions are executed **sequentially, from top to bottom**.
 
-### execution flow
-Assembly is read *from top to bottom*.
+Instructions can be grouped into **labels**, which act as markers in the code. A label is defined with a name followed by a colon (`:`).
 
-The instruction can be grouped in labels, which are used to mark a specific point in the code. They are followed by a colon.
-
-One thing that can be confusing is that although labels look like functions in other languages like C, they are not.
+> [!NOTE]
+> Although labels may resemble functions in higher-level languages like C, they are not functions.
 
 ### Syntax
-> The syntax used in this repositroy is the Intel syntax. It is the most common syntax used in assembly programming, and a requisite of the subject. It is characterized by the fact that the destination operand is on the left and the source operand is on the right.
+The syntax used in this repository follows **Intel syntax**, the most common assembly syntax. This syntax requires the **destination operand to be on the left** and the **source operand to be on the right**.
 
 ### Instructions
-Virtually all the lines in assembly are composed of an instruction followed by its operand(s).
+In assembly, most lines consist of an **instruction** followed by its operand(s). Operands may represent data, addresses, or registers.
 
 ### Behavior
-It is very important to remember that every instruction can alter the behavior of the program implicitly.
+Each assembly instruction may **implicitly alter program behavior**. For instance:
+- The `cmp` instruction compares two operands and sets flags in the **flags register** based on the result. These flags can then influence subsequent instructions, such as conditional jumps.
 
-For example: the `cmp` instruction will set the flags register according to the result of the comparison.
+### Addresses and Values
+Similar to C, assembly allows working with **addresses**.
 
-### Addressed and values
-Like in C, we can work with addresses.
-
-The square brackets `[]` are used to dereference an address.
-
-For example, if we want to move the value at the address `0x1234` into the register `rax`, we can do:
-```
+To dereference an address, use square brackets `[]`. For example:
+```asm
 cmp rax, [0x1234]
 ```
+This compares the value at memory address `0x1234` with the value in the rax register.
+> [!NOTE]
+> In practice, you should specify the size of the data being referenced (e.g., `BYTE`, `WORD`, `DWORD`, `QWORD`). For simplicity, this example omits the size specifier.
 
-> Here we should technically use an identifier for the address (`BYTE`, `WORD`, `DWORD`, `QWORD`) to specify the size of the data we want to compare, but we ignored it for the sake of this explanation.
+#### The `rsp` register
+The `rsp` register stands for **Stack Pointer**. It is a special-purpose register that points to the **top of the stack** in memory. The stack is a region of memory used for storing data such as function arguments, return addresses, and local variables during program execution.
 
-### Exporting symbols
-In order to use the functions we write in assembly in a C program, we need to export them.
+Key points about the `rsp` register:
+- **Automatically managed**: The `rsp` register is adjusted automatically when certain instructions like `push` or `pop` are used:
+  - `push` decreases the value of `rsp` and stores data at the new stack location.
+  - `pop` retrieves data from the top of the stack and increases `rsp`.
+- **Stack growth**: In x86-64 architecture, the stack grows **downward** (towards lower memory addresses). This means that when data is pushed onto the stack, the value of `rsp` decreases.
+- **Manual adjustment**: In some cases, assembly programmers adjust `rsp` directly (e.g., for aligning the stack or reserving space for local variables).
 
-To do so, we can use the `global` directive.
+##### example
+```
+push rax    ; Decrease rsp, store rax on the stack
+pop rbx     ; Retrieve value from stack into rbx, increase rsp
+```
 
-For example, if we want to export the function `ft_strlen`, we can do:
+> [!IMPORTANT]
+> Ensure `rsp` is **16-byte aligned** before function calls to meet **Application Binary Interface (ABI)** requirements.
+
+### Exporting Symbols
+To use assembly functions in a C program, you need to **export** them using the `global` directive. For example:
 ```
 global ft_strlen
 ```
+This makes `ft_strlen` symbol available to the linker.
 
-For more information check [this site](!https://medium.com/@leogaudin/libasm-a-guide-to-get-familiar-with-assembly-in-42-830f619f4c5e)
+---
+### Testing All Functions
+The `test` rule in the Makefile is used to compile and run tests for all implemented functions. It ensures that all functionality behaves as expected.
+```
+make test
+```
+---
+### Sources
+- [Medium](https://medium.com/@leogaudin/libasm-a-guide-to-get-familiar-with-assembly-in-42-830f619f4c5e)
+- [Cheat Sheet](https://www.cs.uaf.edu/2017/fall/cs301/reference/x86_64.html)
