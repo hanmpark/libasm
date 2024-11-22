@@ -79,3 +79,4 @@ make test
 ### Sources
 - [Medium](https://medium.com/@leogaudin/libasm-a-guide-to-get-familiar-with-assembly-in-42-830f619f4c5e)
 - [Cheat Sheet](https://www.cs.uaf.edu/2017/fall/cs301/reference/x86_64.html)
+- [Another Cheat Sheet](https://gist.github.com/justinian/385c70347db8aca7ba93e87db90fc9a6)
