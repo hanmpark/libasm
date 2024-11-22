@@ -65,7 +65,7 @@ ${TEST_OBJ_DIR}%.o: test/src/%.c
 # Rule to build the test executable
 ${TEST_EXEC}: ${NAME} ${TEST_OBJS}
 	@mkdir -p ${BIN_DIR}
-	${CC} -o ${BIN_DIR}${TEST_EXEC} -fsanitize=address -g3 ${TEST_OBJS} ${NAME}
+	${CC} -o ${BIN_DIR}${TEST_EXEC} ${TEST_OBJS} -L. -lasm
 
 clean:
 	rm -f ${OBJ} ${OBJ_BONUS} ${TEST_OBJS}
