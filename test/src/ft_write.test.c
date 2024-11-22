@@ -9,5 +9,5 @@ void ft_write_test() {
 	ASSERT(errno == EBADF, "errno == EBADF");
 	ret = ft_write(1, NULL, 15);
 	ASSERT(ret == -1, "ft_write(1, NULL, 15) == -1");
-	ASSERT(errno == EFAULT, "errno == EFAULT");
+	ASSERT(errno == EINVAL, "errno == EINVAL");
 }
